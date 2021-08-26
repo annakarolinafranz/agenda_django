@@ -16,6 +16,7 @@ class Contato(models.Model):
     data_criacao = models.DateTimeField(default=timezone.now)
     descricao = models.TextField(blank=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.DO_NOTHING)
+    mostrar = models.BooleanField(default=True)  # boolean mostra verdadeiro ou falso, default já deixa ativado como verdadeiro
 
     def __str__(self):
         return self.nome
