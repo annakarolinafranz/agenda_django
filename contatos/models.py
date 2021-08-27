@@ -17,6 +17,7 @@ class Contato(models.Model):
     descricao = models.TextField(blank=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.DO_NOTHING)
     mostrar = models.BooleanField(default=True)  # boolean mostra verdadeiro ou falso, default já deixa ativado como verdadeiro
+    foto = models.ImageField(blank=True, upload_to='foto/%Y/%m/%d')
 
     def __str__(self):
         return self.nome
