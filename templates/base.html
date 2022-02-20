@@ -3,13 +3,14 @@
 <html lang="pt">
 
 <head>
-  <title>{%block titulo %} {%endblock%}Agenda</title>
+  <title>Agenda</title>
   {% include 'parciais/_head.html' %}
+
 </head>
 
 <body>
-  {% include 'parciais/_nav.html' %}
 
+  {% include 'parciais/_nav.html' %}
   <!-- Page Content -->
   <div class="container">
     <div class="row">
@@ -18,19 +19,19 @@
         {% if 'accounts' not in request.path %}
         <br><br>
         <form method="get" action="{% url 'busca' %}">
-          <div class="form-group">
+          <div class="form-group row">
             <div class="col-12">
               <input class="form-control"
-              type="search" value="{{ request.GET.termo }}"
-              id="search-input"
-              placeholder="Digite sua pesquisa"
-              name="termo">
-
+                     type="search" value="{{ request.GET.termo }}"
+                     id="search-input"
+                     placeholder="Digite sua pesquisa"
+                     name="termo">
               {% include 'parciais/_messages.html' %}
             </div>
           </div>
         </form>
         {% endif %}
+
 
         {%block conteudo%} {%endblock%}
       </div>
@@ -38,7 +39,7 @@
   </div>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="{% static 'vendor/jquery/jquery.slim.min.js' %}"></script>
+  <script src="{% static 'vendor/jquery/jquery.slim.min.js'%}"></script>
   <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
 
 </body>

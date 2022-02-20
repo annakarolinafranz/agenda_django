@@ -1,16 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
+from .models import Contato
 from django.core.paginator import Paginator
 from django.db.models import Q, Value
 from django.db.models.functions import Concat
 from django.contrib import messages
-from .models import Contato
+
 
 def index(request):
     contatos = Contato.objects.order_by('-id').filter(
         mostrar=True
     )
-    paginator = Paginator(contatos, 10)
+    paginator = Paginator(contatos, 20)
 
     page = request.GET.get('p')
     contatos = paginator.get_page(page)
@@ -19,9 +20,8 @@ def index(request):
         'contatos': contatos
     })
 
+
 def ver_contato(request, contato_id):
-    # try:
-    # contato = Contato.objects.get(id=contato_id)  # get busca um objeto e o argumento qual campo que eu to buscando ex o 'id'
     contato = get_object_or_404(Contato, id=contato_id)
 
     if not contato.mostrar:
@@ -29,11 +29,10 @@ def ver_contato(request, contato_id):
 
     return render(request, 'contatos/ver_contato.html', {
         'contato': contato
-        })
-    # except Contato.DoesNotExist as e:
-    #     raise Http404()
+    })
 
-def busca(request):  # busca de search campo de input
+
+def busca(request):
     termo = request.GET.get('termo')
 
     if termo is None or not termo:
@@ -42,12 +41,7 @@ def busca(request):  # busca de search campo de input
             messages.ERROR,
             'Campo termo não pode ficar vazio.'
         )
-        # messages.add_message(
-        #     request,
-        #     messages.SUCCESS,
-        #     'Mensagem de sucesso.'
-        # )
-        return redirect('index')  # rediciona para pagina inicial
+        return redirect('index')
 
     campos = Concat('nome', Value(' '), 'sobrenome')
 
@@ -57,7 +51,7 @@ def busca(request):  # busca de search campo de input
         Q(nome_completo__icontains=termo) | Q(telefone__icontains=termo)
     )
 
-    paginator = Paginator(contatos, 10)
+    paginator = Paginator(contatos, 20)
 
     page = request.GET.get('p')
     contatos = paginator.get_page(page)
